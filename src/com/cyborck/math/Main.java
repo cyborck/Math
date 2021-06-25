@@ -2,9 +2,12 @@ package com.cyborck.math;
 
 import com.cyborck.math.gui.FunctionPanel;
 import com.cyborck.math.gui.Window;
-import com.cyborck.math.mathSystem.Number;
-import com.cyborck.math.mathSystem.*;
+import com.cyborck.math.mathSystem.Function;
+import com.cyborck.math.mathSystem.NamedValue;
+import com.cyborck.math.parser.ParseException;
+import com.cyborck.math.parser.Parser;
 import com.cyborck.math.workspace.Functions;
+import com.cyborck.math.workspace.NamedValues;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,29 +19,30 @@ public class Main {
     }
 
     private static void test () {
-        //function 1: x^2
-        FunctionVariable x1 = new FunctionVariable();
-        Calculation power = new Power( x1, new Number( 2 ) );
-        CustomFunction f1 = new CustomFunction( "f", power, x1 );
+        try {
+            Functions functions = new Functions();
+            NamedValues namedValues = new NamedValues();
+            Parser parser = new Parser( functions, namedValues );
 
-        //function 2: 2*x+5
-        FunctionVariable x2 = new FunctionVariable();
-        Calculation multiplication = new Multiplication( new Number( 2 ), x2 );
-        Calculation addition = new Addition( multiplication, new Number( 5 ) );
-        CustomFunction f2 = new CustomFunction( "g", addition, x2 );
+            Function f1 = parser.parseCustomFunction( "f(x) = x^2" );
+            Function f2 = parser.parseCustomFunction( "g(x) = pi * x" );
+            NamedValue nv = parser.parseNamedValue( "a = g(3) + f(3)" );
+            Function f3 = parser.parseCustomFunction( "h(x) = x + a" );
+            Function f4 = parser.parseCustomFunction( "k(x) = f(x) - h(x)" );
 
-        //function 3: sin(x)
-        Function f3 = Functions.getProvidedFunctions().get( 0 );
+            FunctionPanel fp = new FunctionPanel( 1000, 1000 );
+            fp.addFunction( f1 );
+            fp.addFunction( f2 );
+            fp.addFunction( f3 );
+            fp.addFunction( f4 );
 
-        FunctionPanel fp = new FunctionPanel( 1000, 1000 );
-        fp.addFunction( f1 );
-        fp.addFunction( f2 );
-        fp.addFunction( f3 );
+            JPanel panel = new JPanel( new FlowLayout() );
+            panel.add( fp );
 
-        JPanel panel = new JPanel( new FlowLayout() );
-        panel.add( fp );
-
-        Window window = new Window();
-        window.add( panel );
+            Window window = new Window();
+            window.add( panel );
+        } catch ( ParseException e ) {
+            e.printStackTrace();
+        }
     }
 }

@@ -34,6 +34,11 @@ public class Parser {
         }
 
         try {
+            return parseFunctionValue( s );
+        } catch ( ParseException ignored ) {
+        }
+
+        try {
             return parseNamedValueReference( s );
         } catch ( ParseException ignored ) {
         }
@@ -112,7 +117,7 @@ public class Parser {
         throw new ParseException( s + " is not a calculation!" );
     }
 
-    public void addCustomFunction ( String s ) throws ParseException {
+    public Function parseCustomFunction ( String s ) throws ParseException {
         //first parse and than add to list in Functions class
         s = s.trim();
 
@@ -123,7 +128,7 @@ public class Parser {
             throw new ParseException( s + " must contain exactly one '=' to be a function declaration!" );
 
         String totalName = split[ 0 ].trim();
-        if ( totalName.contains( "(x)" ) )
+        if ( !totalName.contains( "(x)" ) )
             throw new ParseException( s + " must contain \"(x)\" to be a function declaration!" );
         String name = totalName.substring( 0, totalName.indexOf( "(x)" ) );
         if ( !totalName.equals( name + "(x)" ) )
@@ -134,11 +139,12 @@ public class Parser {
         String stringValue = split[ 1 ];
         Value value = parseValue( stringValue );
 
-        CustomFunction function = new CustomFunction( name, value );
+        Function function = new CustomFunction( name, value );
         functions.getFunctions().add( function );
+        return function;
     }
 
-    public void addNamedValue ( String s ) throws ParseException {
+    public NamedValue parseNamedValue ( String s ) throws ParseException {
         s = s.trim();
 
         //split in declaration and value
@@ -156,9 +162,26 @@ public class Parser {
 
         NamedValue namedValue = new NamedValue( name, value );
         namedValues.getNamedValues().add( namedValue );
+        return namedValue;
     }
 
-    private Number parseFunctionReference ( String s ) throws ParseException {
+    private FunctionReference parseFunctionReference ( String s ) throws ParseException {
+        //f.e. f(x)
+        s = s.trim();
+
+        if ( !s.endsWith( "(x)" ) )
+            throw new ParseException( s + " is not a function reference!" );
+
+        String name = s.substring( 0, s.indexOf( "(x)" ) );
+        Function function = functions.getByName( name );
+        if ( function == null )
+            throw new ParseException( "Function with name " + name + " does not exist!" );
+
+        return new FunctionReference( function, new FunctionVariable() );
+    }
+
+    private Number parseFunctionValue ( String s ) throws ParseException {
+        //f.e. f(5)
         s = s.trim();
 
         int openBracketIndex = s.indexOf( '(' );

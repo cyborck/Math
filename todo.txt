@@ -1,2 +1,4 @@
 providedFunctions
 providedConstants
+
+Funktionsreferenzen können nicht f(x) sein sondern müssen immer f(5) sein -> ändern
