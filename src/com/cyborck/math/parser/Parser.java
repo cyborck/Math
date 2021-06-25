@@ -140,7 +140,7 @@ public class Parser {
         Value value = parseValue( stringValue );
 
         Function function = new CustomFunction( name, value );
-        functions.getFunctions().add( function );
+        functions.getAllFunctions().add( function );
         return function;
     }
 
@@ -161,7 +161,7 @@ public class Parser {
         Value value = parseValue( stringValue );
 
         NamedValue namedValue = new NamedValue( name, value );
-        namedValues.getNamedValues().add( namedValue );
+        namedValues.getAllNamedValues().add( namedValue );
         return namedValue;
     }
 

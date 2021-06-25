@@ -13,7 +13,7 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionPanel extends JPanel implements MouseWheelListener, MouseMotionListener {
+public class CoordinateSystem extends JPanel implements MouseWheelListener, MouseMotionListener {
     private static final double MIN_SCALE = 0.002;
     private static final double MAX_SCALE = 2;
 
@@ -30,7 +30,7 @@ public class FunctionPanel extends JPanel implements MouseWheelListener, MouseMo
     private int mouseX;
     private int mouseY;
 
-    public FunctionPanel ( int width, int height ) {
+    public CoordinateSystem ( int width, int height ) {
         functions = new ArrayList<>();
         colors = new ArrayList<>();
 

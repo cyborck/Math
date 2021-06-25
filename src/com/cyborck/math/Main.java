@@ -1,6 +1,6 @@
 package com.cyborck.math;
 
-import com.cyborck.math.gui.FunctionPanel;
+import com.cyborck.math.gui.CoordinateSystem;
 import com.cyborck.math.gui.Window;
 import com.cyborck.math.mathSystem.Function;
 import com.cyborck.math.mathSystem.NamedValue;
@@ -30,14 +30,14 @@ public class Main {
             Function f3 = parser.parseCustomFunction( "h(x) = x + a" );
             Function f4 = parser.parseCustomFunction( "k(x) = f(x) - h(x)" );
 
-            FunctionPanel fp = new FunctionPanel( 1000, 1000 );
-            fp.addFunction( f1 );
-            fp.addFunction( f2 );
-            fp.addFunction( f3 );
-            fp.addFunction( f4 );
+            CoordinateSystem cs = new CoordinateSystem( 1000, 1000 );
+            cs.addFunction( f1 );
+            cs.addFunction( f2 );
+            cs.addFunction( f3 );
+            cs.addFunction( f4 );
 
             JPanel panel = new JPanel( new FlowLayout() );
-            panel.add( fp );
+            panel.add( cs );
 
             Window window = new Window();
             window.add( panel );

@@ -1,20 +1,28 @@
 package com.cyborck.math.workspace;
 
+import com.cyborck.math.mathSystem.CustomFunction;
 import com.cyborck.math.mathSystem.Function;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Functions {
-    private final List<Function> functions;
+    private final List<Function> allFunctions;
+    private final List<CustomFunction> customFunctions;
 
-    public Functions ( List<Function> functions ) {
-        this.functions = functions;
+    public Functions ( List<CustomFunction> customFunctions ) {
+        allFunctions = new ArrayList<>();
+        this.customFunctions = customFunctions;
+
+        allFunctions.addAll( getProvidedFunctions() );
+        allFunctions.addAll( customFunctions );
     }
 
     public Functions () {
-        functions = new ArrayList<>();
-        functions.addAll( getProvidedFunctions() );
+        allFunctions = new ArrayList<>();
+        customFunctions = new ArrayList<>();
+
+        allFunctions.addAll( getProvidedFunctions() );
     }
 
     public static List<Function> getProvidedFunctions () {
@@ -31,7 +39,7 @@ public class Functions {
     }
 
     public Function getByName ( String functionName ) {
-        for ( Function f: functions )
+        for ( Function f: allFunctions )
             if ( f.getName().equals( functionName ) )
                 return f;
 
@@ -47,7 +55,7 @@ public class Functions {
                 return false;
 
         //check if name is already taken
-        for ( Function f: functions )
+        for ( Function f: allFunctions )
             if ( f.getName().equals( name ) )
                 return false;
 
@@ -55,7 +63,11 @@ public class Functions {
         return true;
     }
 
-    public List<Function> getFunctions () {
-        return functions;
+    public List<Function> getAllFunctions () {
+        return allFunctions;
+    }
+
+    public List<CustomFunction> getCustomFunctions () {
+        return customFunctions;
     }
 }

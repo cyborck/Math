@@ -7,15 +7,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NamedValues {
-    private final List<NamedValue> namedValues;
+    private final List<NamedValue> allNamedValues;
+    private final List<NamedValue> customNamedValues;
 
-    public NamedValues ( List<NamedValue> namedValues ) {
-        this.namedValues = namedValues;
+    public NamedValues ( List<NamedValue> customNamedValues ) {
+        allNamedValues = new ArrayList<>();
+        this.customNamedValues = customNamedValues;
+
+        allNamedValues.addAll( getProvidedConstants() );
+        allNamedValues.addAll( customNamedValues );
     }
 
     public NamedValues () {
-        namedValues = new ArrayList<>();
-        namedValues.addAll( getProvidedConstants() );
+        allNamedValues = new ArrayList<>();
+        customNamedValues = new ArrayList<>();
+
+        allNamedValues.addAll( getProvidedConstants() );
     }
 
     public static List<NamedValue> getProvidedConstants () {
@@ -27,7 +34,7 @@ public class NamedValues {
     }
 
     public NamedValue getByName ( String name ) {
-        for ( NamedValue nv: namedValues )
+        for ( NamedValue nv: allNamedValues )
             if ( nv.getName().equals( name ) )
                 return nv;
 
@@ -43,7 +50,7 @@ public class NamedValues {
                 return false;
 
         //check if name is already taken
-        for ( NamedValue nv: namedValues )
+        for ( NamedValue nv: allNamedValues )
             if ( nv.getName().equals( name ) )
                 return false;
 
@@ -51,7 +58,11 @@ public class NamedValues {
         return true;
     }
 
-    public List<NamedValue> getNamedValues () {
-        return namedValues;
+    public List<NamedValue> getAllNamedValues () {
+        return allNamedValues;
+    }
+
+    public List<NamedValue> getCustomNamedValues () {
+        return customNamedValues;
     }
 }
