@@ -4,5 +4,5 @@ public interface Value {
 
     double getValue ();
 
-    boolean contains ( FunctionVariable functionVariable );
+    void setFunctionVariable ( FunctionVariable functionVariable );
 }

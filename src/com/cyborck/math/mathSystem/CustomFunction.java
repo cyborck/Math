@@ -4,17 +4,16 @@ public class CustomFunction extends Function {
     private Value function;
     private FunctionVariable x;
 
-    public CustomFunction ( String name, Value function, FunctionVariable x ) {
+    public CustomFunction ( String name, Value function ) {
         super( name );
-        setFunction( function, x );
+        setFunction( function );
     }
 
-    public void setFunction ( Value function, FunctionVariable x ) {
+    public void setFunction ( Value function ) {
         this.function = function;
-        this.x = x;
+        x = new FunctionVariable();
 
-        if ( !function.contains( x ) )
-            throw new IllegalArgumentException( "the function must contain the variable x!" );
+        function.setFunctionVariable( x );
     }
 
     @Override

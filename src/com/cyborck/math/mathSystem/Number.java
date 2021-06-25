@@ -17,7 +17,7 @@ public class Number implements Value {
     }
 
     @Override
-    public boolean contains ( FunctionVariable functionVariable ) {
-        return false;
+    public void setFunctionVariable ( FunctionVariable functionVariable ) {
+        //do nothing
     }
 }

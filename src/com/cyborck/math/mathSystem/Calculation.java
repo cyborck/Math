@@ -1,8 +1,8 @@
 package com.cyborck.math.mathSystem;
 
 public abstract class Calculation implements Value {
-    protected final Value value1;
-    protected final Value value2;
+    protected Value value1;
+    protected Value value2;
 
     protected Calculation ( Value v1, Value v2 ) {
         value1 = v1;
@@ -17,7 +17,10 @@ public abstract class Calculation implements Value {
     }
 
     @Override
-    public boolean contains ( FunctionVariable functionVariable ) {
-        return value1.contains( functionVariable ) || value2.contains( functionVariable );
+    public void setFunctionVariable ( FunctionVariable functionVariable ) {
+        if ( value1 instanceof FunctionVariable ) value1 = functionVariable;
+        else value1.setFunctionVariable( functionVariable );
+        if ( value2 instanceof FunctionVariable ) value2 = functionVariable;
+        else value2.setFunctionVariable( functionVariable );
     }
 }

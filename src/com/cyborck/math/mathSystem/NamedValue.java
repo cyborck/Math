@@ -22,12 +22,12 @@ public class NamedValue implements Value {
         return value.getValue();
     }
 
-    public void setValue ( Value value ) {
-        this.value = value;
+    @Override
+    public void setFunctionVariable ( FunctionVariable functionVariable ) {
+        value.setFunctionVariable( functionVariable );
     }
 
-    @Override
-    public boolean contains ( FunctionVariable functionVariable ) {
-        return false;
+    public void setValue ( Value value ) {
+        this.value = value;
     }
 }
