@@ -133,15 +133,13 @@ public class Parser {
         String name = totalName.substring( 0, totalName.indexOf( "(x)" ) );
         if ( !totalName.equals( name + "(x)" ) )
             throw new ParseException( "The name of a function must be: [name](x). " + s + " is not valid!" );
-        if ( !functions.isValidFunctionName( name ) )
-            throw new ParseException( name + " is not a valid name. It could be already in use or contain forbidden characters!" );
 
         String stringValue = split[ 1 ];
         Value value = parseValue( stringValue );
 
-        Function function = new CustomFunction( name, value );
-        functions.getAllFunctions().add( function );
-        return function;
+        s = totalName.trim() + " = " + stringValue.trim();
+
+        return new CustomFunction( name, s, value );
     }
 
     public NamedValue parseNamedValue ( String s ) throws ParseException {
@@ -154,15 +152,13 @@ public class Parser {
             throw new ParseException( s + " must contain exactly one '=' to be a value declaration!" );
 
         String name = split[ 0 ].trim();
-        if ( !namedValues.isValidNamedValueName( name ) )
-            throw new ParseException( name + " is not a valid name. It could be already in use or contain forbidden characters!" );
 
         String stringValue = split[ 1 ];
         Value value = parseValue( stringValue );
 
-        NamedValue namedValue = new NamedValue( name, value );
-        namedValues.getAllNamedValues().add( namedValue );
-        return namedValue;
+        s = name.trim() + " = " + stringValue.trim();
+
+        return new NamedValue( name, s, value );
     }
 
     private FunctionReference parseFunctionReference ( String s ) throws ParseException {

@@ -28,7 +28,7 @@ public class NamedValues {
     public static List<NamedValue> getProvidedConstants () {
         List<NamedValue> constants = new ArrayList<>();
 
-        constants.add( new NamedValue( "pi", new Number( Math.PI ) ) );
+        constants.add( new NamedValue( "pi", "pi = " + Math.PI, new Number( Math.PI ) ) );
 
         return constants;
     }
@@ -56,6 +56,29 @@ public class NamedValues {
 
         //else return true
         return true;
+    }
+
+    public void add ( NamedValue namedValue ) {
+        if ( isValidNamedValueName( namedValue.getName() ) ) {
+            customNamedValues.add( namedValue );
+            allNamedValues.add( namedValue );
+        }
+    }
+
+    public void remove ( NamedValue namedValue ) {
+        if ( customNamedValues.contains( namedValue ) ) {
+            customNamedValues.remove( namedValue );
+            allNamedValues.remove( namedValue );
+        }
+    }
+
+    public void set ( int index, NamedValue namedValue ) {
+        NamedValue old = allNamedValues.get( index );
+        if ( isValidNamedValueName( namedValue.getName() ) || namedValue.getName().equals( old.getName() ) ) {
+            allNamedValues.set( index, namedValue );
+            int customNamedValuesIndex = customNamedValues.indexOf( old );
+            customNamedValues.set( customNamedValuesIndex, namedValue );
+        }
     }
 
     public List<NamedValue> getAllNamedValues () {

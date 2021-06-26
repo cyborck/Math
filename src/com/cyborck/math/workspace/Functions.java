@@ -28,7 +28,7 @@ public class Functions {
     public static List<Function> getProvidedFunctions () {
         List<Function> providedFunctions = new ArrayList<>();
 
-        providedFunctions.add( new Function( "sin" ) {
+        providedFunctions.add( new Function( "sin", "sin(x)" ) {
             @Override
             public double get ( double x ) {
                 return Math.sin( x );
@@ -61,6 +61,29 @@ public class Functions {
 
         //else return true
         return true;
+    }
+
+    public void add ( CustomFunction function ) {
+        if ( isValidFunctionName( function.getName() ) ) {
+            customFunctions.add( function );
+            allFunctions.add( function );
+        }
+    }
+
+    public void remove ( CustomFunction function ) {
+        if ( customFunctions.contains( function ) ) {
+            customFunctions.remove( function );
+            allFunctions.remove( function );
+        }
+    }
+
+    public void set ( int index, CustomFunction function ) {
+        CustomFunction old = ( CustomFunction ) allFunctions.get( index );
+        if ( isValidFunctionName( function.getName() ) || function.getName().equals( old.getName() ) ) {
+            allFunctions.set( index, function );
+            int customFunctionsIndex = customFunctions.indexOf( old );
+            customFunctions.set( customFunctionsIndex, function );
+        }
     }
 
     public List<Function> getAllFunctions () {

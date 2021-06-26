@@ -1,16 +1,10 @@
 package com.cyborck.math;
 
-import com.cyborck.math.gui.CoordinateSystem;
 import com.cyborck.math.gui.Window;
-import com.cyborck.math.mathSystem.Function;
-import com.cyborck.math.mathSystem.NamedValue;
 import com.cyborck.math.parser.ParseException;
 import com.cyborck.math.parser.Parser;
 import com.cyborck.math.workspace.Functions;
 import com.cyborck.math.workspace.NamedValues;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class Main {
 
@@ -24,23 +18,9 @@ public class Main {
             NamedValues namedValues = new NamedValues();
             Parser parser = new Parser( functions, namedValues );
 
-            Function f1 = parser.parseCustomFunction( "f(x) = x^2" );
-            Function f2 = parser.parseCustomFunction( "g(x) = pi * x" );
-            NamedValue nv = parser.parseNamedValue( "a = g(3) + f(3)" );
-            Function f3 = parser.parseCustomFunction( "h(x) = x + a" );
-            Function f4 = parser.parseCustomFunction( "k(x) = f(x) - h(x)" );
+            namedValues.add( parser.parseNamedValue( "a=23" ) );
 
-            CoordinateSystem cs = new CoordinateSystem( 1000, 1000 );
-            cs.addFunction( f1 );
-            cs.addFunction( f2 );
-            cs.addFunction( f3 );
-            cs.addFunction( f4 );
-
-            JPanel panel = new JPanel( new FlowLayout() );
-            panel.add( cs );
-
-            Window window = new Window();
-            window.add( panel );
+            Window window = new Window( functions, namedValues, parser );
         } catch ( ParseException e ) {
             e.printStackTrace();
         }
