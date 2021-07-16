@@ -210,6 +210,8 @@ public class CoordinateSystem extends JPanel implements MouseWheelListener, Mous
             legendX -= g2d.getFontMetrics().stringWidth( legend ) + 5;
             g2d.drawString( legend, legendX, legendY );
         }
+
+        g2d.dispose();
     }
 
     public void addFunction ( Function function ) {

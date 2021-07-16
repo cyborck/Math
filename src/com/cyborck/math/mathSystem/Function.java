@@ -6,9 +6,12 @@ public abstract class Function {
 
     public Function ( String name, String text ) {
         this.name = name;
+        this.text = text;
     }
 
     public abstract double get ( double x );
+
+    public abstract boolean containsValue ( Value value );
 
     public String getName () {
         return name;

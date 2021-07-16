@@ -5,6 +5,7 @@ import com.cyborck.math.parser.ParseException;
 import com.cyborck.math.parser.Parser;
 import com.cyborck.math.workspace.Functions;
 import com.cyborck.math.workspace.NamedValues;
+import com.cyborck.math.workspace.Workspace;
 
 public class Main {
 
@@ -14,13 +15,12 @@ public class Main {
 
     private static void test () {
         try {
-            Functions functions = new Functions();
-            NamedValues namedValues = new NamedValues();
-            Parser parser = new Parser( functions, namedValues );
+            Workspace workspace = new Workspace();
+            Parser parser = new Parser( workspace );
 
-            namedValues.add( parser.parseNamedValue( "a=23" ) );
+            workspace.add( parser.parseNamedValue( "a=23" ) );
 
-            Window window = new Window( functions, namedValues, parser );
+            Window window = new Window( workspace, parser );
         } catch ( ParseException e ) {
             e.printStackTrace();
         }

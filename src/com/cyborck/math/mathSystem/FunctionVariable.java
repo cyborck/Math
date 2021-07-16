@@ -23,4 +23,14 @@ public class FunctionVariable implements Value {
     public void setNull () {
         valueAssigned = false;
     }
+
+    @Override
+    public boolean containsValue ( Value value ) {
+        return getClass() == value.getClass();
+    }
+
+    @Override
+    public boolean equals ( Object o ) {
+        return o instanceof FunctionVariable;
+    }
 }

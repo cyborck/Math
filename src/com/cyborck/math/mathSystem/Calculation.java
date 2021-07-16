@@ -23,4 +23,9 @@ public abstract class Calculation implements Value {
         if ( value2 instanceof FunctionVariable ) value2 = functionVariable;
         else value2.setFunctionVariable( functionVariable );
     }
+
+    @Override
+    public boolean containsValue ( Value value ) {
+        return equals( value ) || value1.containsValue( value ) || value2.containsValue( value );
+    }
 }

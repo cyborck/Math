@@ -4,14 +4,13 @@ import com.cyborck.math.mathSystem.Number;
 import com.cyborck.math.mathSystem.*;
 import com.cyborck.math.workspace.Functions;
 import com.cyborck.math.workspace.NamedValues;
+import com.cyborck.math.workspace.Workspace;
 
 public class Parser {
-    private final Functions functions;
-    private final NamedValues namedValues;
+    private final Workspace workspace;
 
-    public Parser ( Functions functions, NamedValues namedValues ) {
-        this.functions = functions;
-        this.namedValues = namedValues;
+    public Parser ( Workspace workspace ) {
+        this.workspace = workspace;
     }
 
     private Value parseValue ( String s ) throws ParseException {
@@ -117,7 +116,7 @@ public class Parser {
         throw new ParseException( s + " is not a calculation!" );
     }
 
-    public Function parseCustomFunction ( String s ) throws ParseException {
+    public CustomFunction parseCustomFunction ( String s ) throws ParseException {
         //first parse and than add to list in Functions class
         s = s.trim();
 
@@ -169,11 +168,11 @@ public class Parser {
             throw new ParseException( s + " is not a function reference!" );
 
         String name = s.substring( 0, s.indexOf( "(x)" ) );
-        Function function = functions.getByName( name );
+        Function function = workspace.getFunctions().getByName( name );
         if ( function == null )
             throw new ParseException( "Function with name " + name + " does not exist!" );
 
-        return new FunctionReference( function, new FunctionVariable() );
+        return new FunctionReference( function );
     }
 
     private Number parseFunctionValue ( String s ) throws ParseException {
@@ -187,7 +186,7 @@ public class Parser {
             throw new ParseException( s + " is not a function reference!" );
 
         String functionName = s.substring( 0, openBracketIndex );
-        Function function = functions.getByName( functionName );
+        Function function = workspace.getFunctions().getByName( functionName );
         if ( function == null )
             throw new ParseException( "Function with that name does not exist!" );
 
@@ -199,7 +198,7 @@ public class Parser {
     private NamedValue parseNamedValueReference ( String s ) throws ParseException {
         s = s.trim();
 
-        NamedValue namedValue = namedValues.getByName( s );
+        NamedValue namedValue = workspace.getNamedValues().getByName( s );
         if ( namedValue == null )
             throw new ParseException( s + " is not a NamedValue reference!" );
 

@@ -2,15 +2,20 @@ package com.cyborck.math.workspace;
 
 import com.cyborck.math.mathSystem.NamedValue;
 import com.cyborck.math.mathSystem.Number;
+import com.cyborck.math.mathSystem.Value;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NamedValues {
+    private final Workspace workspace;
+
     private final List<NamedValue> allNamedValues;
     private final List<NamedValue> customNamedValues;
 
-    public NamedValues ( List<NamedValue> customNamedValues ) {
+    public NamedValues ( Workspace workspace, List<NamedValue> customNamedValues ) {
+        this.workspace = workspace;
+
         allNamedValues = new ArrayList<>();
         this.customNamedValues = customNamedValues;
 
@@ -18,7 +23,9 @@ public class NamedValues {
         allNamedValues.addAll( customNamedValues );
     }
 
-    public NamedValues () {
+    public NamedValues ( Workspace workspace ) {
+        this.workspace = workspace;
+
         allNamedValues = new ArrayList<>();
         customNamedValues = new ArrayList<>();
 
@@ -58,26 +65,31 @@ public class NamedValues {
         return true;
     }
 
-    public void add ( NamedValue namedValue ) {
+    void add ( NamedValue namedValue ) {
         if ( isValidNamedValueName( namedValue.getName() ) ) {
             customNamedValues.add( namedValue );
             allNamedValues.add( namedValue );
         }
     }
 
-    public void remove ( NamedValue namedValue ) {
+    void remove ( NamedValue namedValue ) {
+        //remove namedValue
         if ( customNamedValues.contains( namedValue ) ) {
             customNamedValues.remove( namedValue );
             allNamedValues.remove( namedValue );
         }
     }
 
-    public void set ( int index, NamedValue namedValue ) {
-        NamedValue old = allNamedValues.get( index );
-        if ( isValidNamedValueName( namedValue.getName() ) || namedValue.getName().equals( old.getName() ) ) {
-            allNamedValues.set( index, namedValue );
-            int customNamedValuesIndex = customNamedValues.indexOf( old );
-            customNamedValues.set( customNamedValuesIndex, namedValue );
+    void removeNamedValuesThatContain ( Value value ) {
+        List<NamedValue> toRemove = new ArrayList<>();
+
+        for ( NamedValue nv: customNamedValues )
+            if ( nv.containsValue( value ) )
+                toRemove.add( nv );
+
+        while ( !toRemove.isEmpty() ) {
+            workspace.remove( toRemove.get( 0 ) );
+            toRemove.remove( 0 );
         }
     }
 

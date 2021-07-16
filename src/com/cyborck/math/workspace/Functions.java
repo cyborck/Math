@@ -1,16 +1,19 @@
 package com.cyborck.math.workspace;
 
-import com.cyborck.math.mathSystem.CustomFunction;
-import com.cyborck.math.mathSystem.Function;
+import com.cyborck.math.mathSystem.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Functions {
+    private final Workspace workspace;
+
     private final List<Function> allFunctions;
     private final List<CustomFunction> customFunctions;
 
-    public Functions ( List<CustomFunction> customFunctions ) {
+    public Functions ( Workspace workspace, List<CustomFunction> customFunctions ) {
+        this.workspace = workspace;
+
         allFunctions = new ArrayList<>();
         this.customFunctions = customFunctions;
 
@@ -18,7 +21,9 @@ public class Functions {
         allFunctions.addAll( customFunctions );
     }
 
-    public Functions () {
+    public Functions ( Workspace workspace ) {
+        this.workspace = workspace;
+
         allFunctions = new ArrayList<>();
         customFunctions = new ArrayList<>();
 
@@ -32,6 +37,11 @@ public class Functions {
             @Override
             public double get ( double x ) {
                 return Math.sin( x );
+            }
+
+            @Override
+            public boolean containsValue ( Value value ) {
+                return false;
             }
         } );
 
@@ -63,26 +73,31 @@ public class Functions {
         return true;
     }
 
-    public void add ( CustomFunction function ) {
+    void add ( CustomFunction function ) {
         if ( isValidFunctionName( function.getName() ) ) {
             customFunctions.add( function );
             allFunctions.add( function );
         }
     }
 
-    public void remove ( CustomFunction function ) {
-        if ( customFunctions.contains( function ) ) {
-            customFunctions.remove( function );
-            allFunctions.remove( function );
+    void remove ( CustomFunction customFunction ) {
+        //remove function
+        if ( this.customFunctions.contains( customFunction ) ) {
+            this.customFunctions.remove( customFunction );
+            allFunctions.remove( customFunction );
         }
     }
 
-    public void set ( int index, CustomFunction function ) {
-        CustomFunction old = ( CustomFunction ) allFunctions.get( index );
-        if ( isValidFunctionName( function.getName() ) || function.getName().equals( old.getName() ) ) {
-            allFunctions.set( index, function );
-            int customFunctionsIndex = customFunctions.indexOf( old );
-            customFunctions.set( customFunctionsIndex, function );
+    void removeFunctionsThatContain ( Value value ) {
+        List<CustomFunction> toRemove = new ArrayList<>();
+
+        for ( CustomFunction cf: customFunctions )
+            if ( cf.containsValue( value ) )
+                toRemove.add( cf );
+
+        while ( !toRemove.isEmpty() ) {
+            workspace.remove( toRemove.get( 0 ) );
+            toRemove.remove( 0 );
         }
     }
 
