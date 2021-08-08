@@ -3,8 +3,6 @@ package com.cyborck.math;
 import com.cyborck.math.gui.Window;
 import com.cyborck.math.parser.ParseException;
 import com.cyborck.math.parser.Parser;
-import com.cyborck.math.workspace.Functions;
-import com.cyborck.math.workspace.NamedValues;
 import com.cyborck.math.workspace.Workspace;
 
 public class Main {

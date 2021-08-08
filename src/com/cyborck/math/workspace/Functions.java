@@ -1,6 +1,8 @@
 package com.cyborck.math.workspace;
 
-import com.cyborck.math.mathSystem.*;
+import com.cyborck.math.mathSystem.CustomFunction;
+import com.cyborck.math.mathSystem.Function;
+import com.cyborck.math.mathSystem.Value;
 
 import java.util.ArrayList;
 import java.util.List;

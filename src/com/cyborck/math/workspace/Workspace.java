@@ -1,6 +1,9 @@
 package com.cyborck.math.workspace;
 
-import com.cyborck.math.mathSystem.*;
+import com.cyborck.math.mathSystem.CustomFunction;
+import com.cyborck.math.mathSystem.FunctionReference;
+import com.cyborck.math.mathSystem.NamedValue;
+import com.cyborck.math.mathSystem.Value;
 
 public class Workspace {
     private final Functions functions;

@@ -1,7 +1,5 @@
 package com.cyborck.math.mathSystem;
 
-import java.util.Objects;
-
 public class Number implements Value {
     private double value;
 

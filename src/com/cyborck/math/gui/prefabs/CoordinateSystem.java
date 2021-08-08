@@ -1,4 +1,4 @@
-package com.cyborck.math.gui;
+package com.cyborck.math.gui.prefabs;
 
 import com.cyborck.math.ColorScheme;
 import com.cyborck.math.mathSystem.Function;
@@ -42,6 +42,7 @@ public class CoordinateSystem extends JPanel implements MouseWheelListener, Mous
         this.height = height;
 
         setPreferredSize( new Dimension( width, height ) );
+        setBackground( ColorScheme.BACKGROUND );
         addMouseWheelListener( this );
         addMouseMotionListener( this );
     }
@@ -51,22 +52,17 @@ public class CoordinateSystem extends JPanel implements MouseWheelListener, Mous
         super.paintComponent( g );
 
         Graphics2D g2d = ( Graphics2D ) g;
+
         g2d.setStroke( new BasicStroke( 2 ) );
         g2d.setFont( ColorScheme.TEXT_FONT );
         g2d.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g2d.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
 
-        g2d.setColor( ColorScheme.BACKGROUND_2 );
+        //background
+        g2d.setColor( ColorScheme.BACKGROUND );
         g2d.fillRect( 0, 0, width, height );
 
-        //draw coordinate system
-        Line2D xAxis = new Line2D.Double( 0, offsetY, width, offsetY );
-        Line2D yAxis = new Line2D.Double( offsetX, 0, offsetX, height );
-        g2d.setColor( ColorScheme.FOREGROUND_1 );
-        g2d.draw( xAxis );
-        g2d.draw( yAxis );
-
-        //label axis and draw grid
+        //label axis and grid
         double gridSpacing = 1;
         while ( gridSpacing < 50d * scale ) gridSpacing *= 2;
         while ( gridSpacing > 100d * scale ) gridSpacing /= 2;
@@ -75,7 +71,7 @@ public class CoordinateSystem extends JPanel implements MouseWheelListener, Mous
             double xCoordinate = x / scale + offsetX;
 
             //grid line
-            g2d.setColor( ColorScheme.BACKGROUND_1 );
+            g2d.setColor( ColorScheme.FOREGROUND_2 );
             Line2D gridLine = new Line2D.Double( xCoordinate, 0, xCoordinate, height );
             g2d.draw( gridLine );
 
@@ -99,7 +95,7 @@ public class CoordinateSystem extends JPanel implements MouseWheelListener, Mous
             double xCoordinate = x / scale + offsetX;
 
             //grid line
-            g2d.setColor( ColorScheme.BACKGROUND_1 );
+            g2d.setColor( ColorScheme.FOREGROUND_2 );
             Line2D gridLine = new Line2D.Double( xCoordinate, 0, xCoordinate, height );
             g2d.draw( gridLine );
 
@@ -123,7 +119,7 @@ public class CoordinateSystem extends JPanel implements MouseWheelListener, Mous
             double yCoordinate = -y / scale + offsetY;
 
             //grid line
-            g2d.setColor( ColorScheme.BACKGROUND_1 );
+            g2d.setColor( ColorScheme.FOREGROUND_2 );
             Line2D gridLine = new Line2D.Double( 0, yCoordinate, width, yCoordinate );
             g2d.draw( gridLine );
 
@@ -147,7 +143,7 @@ public class CoordinateSystem extends JPanel implements MouseWheelListener, Mous
             double yCoordinate = -y / scale + offsetY;
 
             //grid line
-            g2d.setColor( ColorScheme.BACKGROUND_1 );
+            g2d.setColor( ColorScheme.FOREGROUND_2 );
             Line2D gridLine = new Line2D.Double( 0, yCoordinate, width, yCoordinate );
             g2d.draw( gridLine );
 
@@ -167,20 +163,26 @@ public class CoordinateSystem extends JPanel implements MouseWheelListener, Mous
             g2d.drawString( str, strX, strY );
         }
         g2d.setColor( ColorScheme.FOREGROUND_1 );
-        //x
+        //x-axis label
         String xString = "x";
         int xHeight = g2d.getFontMetrics().getHeight();
         int xWidth = g2d.getFontMetrics().stringWidth( xString );
         int xPosX = width - xWidth - 2;
         int xPosY = ( int ) ( offsetY + xHeight + 2 );
         g2d.drawString( xString, xPosX, xPosY );
-        //y
+        //y-axis label
         String yString = "y";
         int yHeight = g2d.getFontMetrics().getHeight();
         int yWidth = g2d.getFontMetrics().stringWidth( yString );
         int yPosX = ( int ) ( offsetX - yWidth - 10 );
         int yPosY = yHeight - 4;
         g2d.drawString( yString, yPosX, yPosY );
+
+        //coordinate system
+        Line2D xAxis = new Line2D.Double( 0, offsetY, width, offsetY );
+        Line2D yAxis = new Line2D.Double( offsetX, 0, offsetX, height );
+        g2d.draw( xAxis );
+        g2d.draw( yAxis );
 
         //draw every function
         int legendX = width;
@@ -211,13 +213,21 @@ public class CoordinateSystem extends JPanel implements MouseWheelListener, Mous
             g2d.drawString( legend, legendX, legendY );
         }
 
+        //border
+        g2d.setColor( ColorScheme.FOREGROUND_1 );
+        Line2D topBorder = new Line2D.Double( 1, 1, width-1, 1 );
+        Line2D leftBorder = new Line2D.Double( 1, 1, 1, height-1 );
+        Line2D rightBorder = new Line2D.Double( width-1, 1, width-1, height-1 );
+        Line2D bottomBorder = new Line2D.Double( 1, height-1, width-1, height-1 );
+        g2d.draw( topBorder );
+        g2d.draw( leftBorder );
+        g2d.draw( rightBorder );
+        g2d.draw( bottomBorder );
+
         g2d.dispose();
     }
 
-    public void addFunction ( Function function ) {
-        functions.add( function );
-
-        //select random color for graph
+    public Color generateRandomColor () {
         int randomR;
         int randomG;
         int randomB;
@@ -226,13 +236,21 @@ public class CoordinateSystem extends JPanel implements MouseWheelListener, Mous
             randomR = ( int ) ( Math.random() * 256 );
             randomG = ( int ) ( Math.random() * 256 );
             randomB = ( int ) ( Math.random() * 256 );
-        } while ( ( randomR > ColorScheme.BACKGROUND_2.getRed() - 5 && randomR < ColorScheme.BACKGROUND_2.getRed() + 5 ) &&
-                ( randomG > ColorScheme.BACKGROUND_2.getGreen() - 5 && randomG < ColorScheme.BACKGROUND_2.getGreen() + 5 ) &&
-                ( randomB > ColorScheme.BACKGROUND_2.getBlue() - 5 && randomB < ColorScheme.BACKGROUND_2.getBlue() + 5 ) );
+        } while ( ( randomR > ColorScheme.BACKGROUND.getRed() - 5 && randomR < ColorScheme.BACKGROUND.getRed() + 5 ) &&
+                ( randomG > ColorScheme.BACKGROUND.getGreen() - 5 && randomG < ColorScheme.BACKGROUND.getGreen() + 5 ) &&
+                ( randomB > ColorScheme.BACKGROUND.getBlue() - 5 && randomB < ColorScheme.BACKGROUND.getBlue() + 5 ) );
 
-        colors.add( new Color( randomR, randomG, randomB ) );
+        return new Color( randomR, randomG, randomB );
+    }
 
+    public void addFunction ( Function function, Color color ) {
+        functions.add( function );
+        colors.add( color );
         repaint();
+    }
+
+    public void addFunction ( Function function ) {
+        addFunction( function, generateRandomColor() );
     }
 
     public void removeFunction ( Function function ) {
@@ -286,5 +304,13 @@ public class CoordinateSystem extends JPanel implements MouseWheelListener, Mous
     public void mouseWheelMoved ( MouseWheelEvent e ) {
         if ( e.getWheelRotation() == -1 ) zoomIn();
         else if ( e.getWheelRotation() == 1 ) zoomOut();
+    }
+
+    public List<Function> getFunctions () {
+        return functions;
+    }
+
+    public List<Color> getColors () {
+        return colors;
     }
 }

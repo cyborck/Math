@@ -13,7 +13,10 @@ public class CustomFunction extends Function {
         this.function = function;
         functionVariable = new FunctionVariable();
 
-        function.setFunctionVariable( functionVariable );
+        if ( this.function instanceof FunctionVariable )
+            this.function = functionVariable;
+        else
+            this.function.setFunctionVariable( functionVariable );
     }
 
     @Override

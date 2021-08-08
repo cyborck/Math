@@ -8,8 +8,6 @@ import com.cyborck.math.mathSystem.Function;
 import com.cyborck.math.mathSystem.NamedValue;
 import com.cyborck.math.parser.ParseException;
 import com.cyborck.math.parser.Parser;
-import com.cyborck.math.workspace.Functions;
-import com.cyborck.math.workspace.NamedValues;
 import com.cyborck.math.workspace.Workspace;
 
 import javax.swing.*;
@@ -19,22 +17,24 @@ import java.awt.event.KeyEvent;
 
 public class WorkspacePanel extends JPanel {
     private final Workspace workspace;
+    private final ScreenPanel screenPanel;
 
     private final JPanel namedValuesListPanel;
     private final JPanel functionsListPanel;
 
-    public WorkspacePanel ( Workspace workspace, Parser parser ) {
+    public WorkspacePanel ( Workspace workspace, ScreenPanel screenPanel, Parser parser ) {
         this.workspace = workspace;
+        this.screenPanel = screenPanel;
 
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-        setBackground( ColorScheme.BACKGROUND_1 );
+        setBackground( ColorScheme.BACKGROUND );
         setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
 
         //namedValues
         JLabel namedValuesTitleLabel = new JLabel();
         namedValuesTitleLabel.setText( "Variablen" );
         namedValuesTitleLabel.setFont( ColorScheme.TITLE_FONT );
-        namedValuesTitleLabel.setForeground( ColorScheme.FOREGROUND_2 );
+        namedValuesTitleLabel.setForeground( ColorScheme.FOREGROUND_1 );
 
         Box namedValuesTitleBox = Box.createHorizontalBox();
         namedValuesTitleBox.add( namedValuesTitleLabel );
@@ -43,13 +43,13 @@ public class WorkspacePanel extends JPanel {
 
         namedValuesListPanel = new JPanel();
         namedValuesListPanel.setLayout( new BoxLayout( namedValuesListPanel, BoxLayout.Y_AXIS ) );
-        namedValuesListPanel.setBackground( ColorScheme.BACKGROUND_1 );
+        namedValuesListPanel.setBackground( ColorScheme.BACKGROUND );
         add( namedValuesListPanel );
 
         //input line for new named value
         JPanel namedValueInputPanel = new JPanel();
         namedValueInputPanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
-        namedValueInputPanel.setBackground( ColorScheme.BACKGROUND_1 );
+        namedValueInputPanel.setBackground( ColorScheme.BACKGROUND );
 
         TextLine namedValueTextLine = new TextLine( 200 );
         namedValueTextLine.setDefaultTextWhenNotFocussed( "Variable hinzufügen" );
@@ -71,6 +71,7 @@ public class WorkspacePanel extends JPanel {
 
         Button namedValueInputButton = new Button();
         namedValueInputButton.setText( "+" );
+        namedValueInputButton.setPreferredSize( new Dimension( namedValueInputButton.getPreferredSize().width + 1, namedValueInputButton.getPreferredSize().width + 1 ) );
         namedValueInputButton.addActionListener( e -> {
             try {
                 workspace.add( parser.parseNamedValue( namedValueTextLine.getText() ) );
@@ -87,7 +88,7 @@ public class WorkspacePanel extends JPanel {
         JLabel functionsTitleLabel = new JLabel();
         functionsTitleLabel.setText( "Funktionen" );
         functionsTitleLabel.setFont( ColorScheme.TITLE_FONT );
-        functionsTitleLabel.setForeground( ColorScheme.FOREGROUND_2 );
+        functionsTitleLabel.setForeground( ColorScheme.FOREGROUND_1 );
 
         Box functionsTitleBox = Box.createHorizontalBox();
         functionsTitleBox.add( functionsTitleLabel );
@@ -96,13 +97,13 @@ public class WorkspacePanel extends JPanel {
 
         functionsListPanel = new JPanel();
         functionsListPanel.setLayout( new BoxLayout( functionsListPanel, BoxLayout.Y_AXIS ) );
-        functionsListPanel.setBackground( ColorScheme.BACKGROUND_1 );
+        functionsListPanel.setBackground( ColorScheme.BACKGROUND );
         add( functionsListPanel );
 
         //input line for new function
         JPanel functionInputPanel = new JPanel();
         functionInputPanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
-        functionInputPanel.setBackground( ColorScheme.BACKGROUND_1 );
+        functionInputPanel.setBackground( ColorScheme.BACKGROUND );
 
         TextLine functionTextLine = new TextLine( 200 );
         functionTextLine.setDefaultTextWhenNotFocussed( "Funktion hinzufügen" );
@@ -124,6 +125,7 @@ public class WorkspacePanel extends JPanel {
 
         Button functionInputButton = new Button();
         functionInputButton.setText( "+" );
+        functionInputButton.setPreferredSize( new Dimension( functionInputButton.getPreferredSize().width + 1, functionInputButton.getPreferredSize().width + 1 ) );
         functionInputButton.addActionListener( e -> {
             try {
                 workspace.add( parser.parseCustomFunction( functionTextLine.getText() ) );
@@ -148,7 +150,7 @@ public class WorkspacePanel extends JPanel {
 
             JPanel namedValuePanel = new JPanel();
             namedValuePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
-            namedValuePanel.setBackground( ColorScheme.BACKGROUND_1 );
+            namedValuePanel.setBackground( ColorScheme.BACKGROUND );
 
             //add the calculated value at the end
             String text = nv.getText();
@@ -172,6 +174,7 @@ public class WorkspacePanel extends JPanel {
             if ( workspace.getNamedValues().getCustomNamedValues().contains( nv ) ) {
                 Button deleteNamedValueButton = new Button();
                 deleteNamedValueButton.setText( "-" );
+                deleteNamedValueButton.setPreferredSize( new Dimension( deleteNamedValueButton.getPreferredSize().width + 1, deleteNamedValueButton.getPreferredSize().width + 1 ) );
                 deleteNamedValueButton.addActionListener( e -> {
                     workspace.remove( nv );
                     update();
@@ -191,7 +194,7 @@ public class WorkspacePanel extends JPanel {
 
             JPanel functionPanel = new JPanel();
             functionPanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
-            functionPanel.setBackground( ColorScheme.BACKGROUND_1 );
+            functionPanel.setBackground( ColorScheme.BACKGROUND );
 
             JLabel functionLabel = new JLabel();
             functionLabel.setText( f.getText() );
@@ -205,6 +208,7 @@ public class WorkspacePanel extends JPanel {
             if ( f instanceof CustomFunction ) {
                 Button deleteFunctionButton = new Button();
                 deleteFunctionButton.setText( "-" );
+                deleteFunctionButton.setPreferredSize( new Dimension( deleteFunctionButton.getPreferredSize().width + 1, deleteFunctionButton.getPreferredSize().width + 1 ) );
                 deleteFunctionButton.addActionListener( e -> {
                     workspace.remove( ( CustomFunction ) f );
                     update();
@@ -218,5 +222,8 @@ public class WorkspacePanel extends JPanel {
 
         revalidate();
         repaint();
+
+        //workspace must have been updated, so update current screen
+        screenPanel.getScreen().update();
     }
 }

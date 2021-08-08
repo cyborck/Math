@@ -1,6 +1,6 @@
 package com.cyborck.math.mathSystem;
 
-public class Multiplication extends Calculation{
+public class Multiplication extends Calculation {
     public Multiplication ( Value factor1, Value factor2 ) {
         super( factor1, factor2 );
     }

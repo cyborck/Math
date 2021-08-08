@@ -17,13 +17,13 @@ public class Button extends JButton {
         setFocusPainted( false );
         setFont( ColorScheme.TEXT_FONT );
         setForeground( ColorScheme.FOREGROUND_1 );
-        setBackground( ColorScheme.BACKGROUND_1 );
+        setBackground( ColorScheme.BACKGROUND );
         setBorder( BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder( ColorScheme.FOREGROUND_1, 2 ),
                 BorderFactory.createEmptyBorder( 5, 5, 5, 5 )
         ) );
         setModel( new NoClickEffectModel() );
-        changeBackgroundOnClick( ColorScheme.BACKGROUND_1, ColorScheme.BACKGROUND_2 );
+        changeBackgroundOnClick( ColorScheme.BACKGROUND, ColorScheme.BACKGROUND );
     }
 
     public void changeTextOnHover ( String normalText, String hoverText ) {

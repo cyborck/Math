@@ -1,7 +1,9 @@
 package com.cyborck.math.gui;
 
 import com.cyborck.math.ColorScheme;
+import com.cyborck.math.gui.navBar.NavigationBar;
 import com.cyborck.math.gui.prefabs.ScrollPane;
+import com.cyborck.math.gui.screens.CoordinateSystemScreen;
 import com.cyborck.math.parser.Parser;
 import com.cyborck.math.workspace.Workspace;
 
@@ -20,30 +22,25 @@ public class Window extends JFrame {
         content.setLayout( new BorderLayout() );
         add( content );
 
-        JPanel northPanel = new JPanel( new FlowLayout() );
-        northPanel.setBackground( ColorScheme.BACKGROUND_1 );
-        content.add( northPanel, BorderLayout.NORTH );
+        //main content
+        ScreenPanel sp = new ScreenPanel();
+        content.add( sp.getPanel(), BorderLayout.CENTER );
 
+        //screens
+        CoordinateSystemScreen css = new CoordinateSystemScreen( workspace.getFunctions() );
+
+        //navigation bar
+        NavigationBar navBar = new NavigationBar( sp );
+        navBar.addScreen( "Koordinatensystem", css );
+        content.add( navBar, BorderLayout.NORTH );
+
+        //workspace
         JPanel westPanel = new JPanel( new FlowLayout() );
-        westPanel.setBackground( ColorScheme.BACKGROUND_1 );
-
-        WorkspacePanel workspacePanel = new WorkspacePanel( workspace, parser );
+        westPanel.setBackground( ColorScheme.BACKGROUND );
+        WorkspacePanel workspacePanel = new WorkspacePanel( workspace, sp, parser );
         westPanel.add( workspacePanel );
-
         ScrollPane westPanelScrollPane = new ScrollPane( westPanel );
         content.add( westPanelScrollPane, BorderLayout.WEST );
-
-        JPanel centerPanel = new JPanel( new FlowLayout() );
-        centerPanel.setBackground( ColorScheme.BACKGROUND_1 );
-        content.add( centerPanel, BorderLayout.CENTER );
-
-        JPanel eastPanel = new JPanel( new FlowLayout() );
-        eastPanel.setBackground( ColorScheme.BACKGROUND_1 );
-        content.add( eastPanel, BorderLayout.EAST );
-
-        JPanel southPanel = new JPanel( new FlowLayout() );
-        southPanel.setBackground( ColorScheme.BACKGROUND_1 );
-        content.add( southPanel, BorderLayout.SOUTH );
 
         setVisible( true );
     }

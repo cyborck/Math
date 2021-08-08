@@ -13,7 +13,7 @@ public class ScrollPane extends JScrollPane {
     private static final int SCROLL_BAR_ALPHA = 100;
     private static final int THUMB_SIZE = 8;
     private static final int SB_SIZE = 10;
-    private static final Color THUMB_COLOR = ColorScheme.FOREGROUND_3;
+    private static final Color THUMB_COLOR = ColorScheme.FOREGROUND_1;
 
     public ScrollPane ( Component view ) {
         super( view, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED );

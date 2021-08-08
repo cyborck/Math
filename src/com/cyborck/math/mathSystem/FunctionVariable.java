@@ -10,14 +10,14 @@ public class FunctionVariable implements Value {
         else return value;
     }
 
-    @Override
-    public void setFunctionVariable ( FunctionVariable functionVariable ) {
-        //do nothing
-    }
-
     public void setValue ( double value ) {
         this.value = value;
         valueAssigned = true;
+    }
+
+    @Override
+    public void setFunctionVariable ( FunctionVariable functionVariable ) {
+        //do nothing
     }
 
     public void setNull () {

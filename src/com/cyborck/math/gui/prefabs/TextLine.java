@@ -13,7 +13,7 @@ public class TextLine extends JTextField {
         super();
         setFont( ColorScheme.TEXT_FONT );
         setForeground( ColorScheme.FOREGROUND_1 );
-        setBackground( ColorScheme.BACKGROUND_1 );
+        setBackground( ColorScheme.BACKGROUND );
         setCaretColor( ColorScheme.FOREGROUND_1 );
         setBorder( BorderFactory.createCompoundBorder( BorderFactory.createLineBorder( ColorScheme.FOREGROUND_1, 2 ),
                 BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) ) );
@@ -36,7 +36,7 @@ public class TextLine extends JTextField {
 
         public DefaultTextWhenNotFocussed ( String defaultText ) {
             this.defaultText = defaultText;
-            defaultForeground = ColorScheme.FOREGROUND_3;
+            defaultForeground = ColorScheme.FOREGROUND_1;
             focusForeground = ColorScheme.FOREGROUND_1;
         }
 

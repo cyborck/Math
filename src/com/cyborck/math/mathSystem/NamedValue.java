@@ -24,12 +24,12 @@ public class NamedValue implements Value {
         return value.getValue();
     }
 
-    public Value getValueObject () {
-        return value;
-    }
-
     public void setValue ( Value value ) {
         this.value = value;
+    }
+
+    public Value getValueObject () {
+        return value;
     }
 
     @Override

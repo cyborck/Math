@@ -2,8 +2,6 @@ package com.cyborck.math.parser;
 
 import com.cyborck.math.mathSystem.Number;
 import com.cyborck.math.mathSystem.*;
-import com.cyborck.math.workspace.Functions;
-import com.cyborck.math.workspace.NamedValues;
 import com.cyborck.math.workspace.Workspace;
 
 public class Parser {
