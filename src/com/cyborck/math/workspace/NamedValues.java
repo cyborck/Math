@@ -36,6 +36,7 @@ public class NamedValues {
         List<NamedValue> constants = new ArrayList<>();
 
         constants.add( new NamedValue( "pi", "pi = " + Math.PI, new Number( Math.PI ) ) );
+        constants.add( new NamedValue( "e", "e = " + Math.E, new Number( Math.E ) ) );
 
         return constants;
     }

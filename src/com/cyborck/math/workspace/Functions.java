@@ -46,6 +46,94 @@ public class Functions {
                 return false;
             }
         } );
+        providedFunctions.add( new Function( "cos", "cos(x)" ) {
+            @Override
+            public double get ( double x ) {
+                return Math.cos( x );
+            }
+
+            @Override
+            public boolean containsValue ( Value value ) {
+                return false;
+            }
+        } );
+        providedFunctions.add( new Function( "tan", "tan(x)" ) {
+            @Override
+            public double get ( double x ) {
+                return Math.tan( x );
+            }
+
+            @Override
+            public boolean containsValue ( Value value ) {
+                return false;
+            }
+        } );
+        providedFunctions.add( new Function( "asin", "asin(x)" ) {
+            @Override
+            public double get ( double x ) {
+                return Math.asin( x );
+            }
+
+            @Override
+            public boolean containsValue ( Value value ) {
+                return false;
+            }
+        } );
+        providedFunctions.add( new Function( "acos", "acos(x)" ) {
+            @Override
+            public double get ( double x ) {
+                return Math.acos( x );
+            }
+
+            @Override
+            public boolean containsValue ( Value value ) {
+                return false;
+            }
+        } );
+        providedFunctions.add( new Function( "atan", "atan(x)" ) {
+            @Override
+            public double get ( double x ) {
+                return Math.atan( x );
+            }
+
+            @Override
+            public boolean containsValue ( Value value ) {
+                return false;
+            }
+        } );
+        providedFunctions.add( new Function( "exp", "exp(x)" ) {
+            @Override
+            public double get ( double x ) {
+                return Math.exp( x );
+            }
+
+            @Override
+            public boolean containsValue ( Value value ) {
+                return false;
+            }
+        } );
+        providedFunctions.add( new Function( "log", "log(x)" ) {
+            @Override
+            public double get ( double x ) {
+                return Math.log( x );
+            }
+
+            @Override
+            public boolean containsValue ( Value value ) {
+                return false;
+            }
+        } );
+        providedFunctions.add( new Function( "log10", "log10(x)" ) {
+            @Override
+            public double get ( double x ) {
+                return Math.log10( x );
+            }
+
+            @Override
+            public boolean containsValue ( Value value ) {
+                return false;
+            }
+        } );
 
         return providedFunctions;
     }

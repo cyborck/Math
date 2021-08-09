@@ -28,7 +28,7 @@ public class CoordinateSystemScreen extends Screen {
         setLayout( new FlowLayout( FlowLayout.CENTER ) );
         setBackground( ColorScheme.BACKGROUND );
 
-        coordinateSystem = new CoordinateSystem( 800,800 );
+        coordinateSystem = new CoordinateSystem( 800, 800 );
         add( coordinateSystem );
 
         checkBoxPanel = new JPanel();
@@ -50,9 +50,7 @@ public class CoordinateSystemScreen extends Screen {
         checkBoxPanel.removeAll();
 
         List<CustomFunction> customFunctions = functions.getCustomFunctions();
-        for ( int i = 0; i < customFunctions.size(); i++ ) {
-            CustomFunction f = customFunctions.get( i );
-
+        for ( CustomFunction f: customFunctions ) {
             Color color = previousFunctions.contains( f ) ? previousFunctionColors.get( previousFunctions.indexOf( f ) ) :
                     coordinateSystem.generateRandomColor();
 
